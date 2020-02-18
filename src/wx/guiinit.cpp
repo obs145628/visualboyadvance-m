@@ -2749,6 +2749,11 @@ bool MainFrame::BindControls()
         return false;
     }
 
+#ifdef __WXMSW__
+    timer = new RenderTimer(panel);
+    timer->start();
+#endif // __WXMSW__
+
     panel->SetMainFrame(this);
 
     panel->AdjustSize(false);
