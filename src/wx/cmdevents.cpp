@@ -1406,6 +1406,7 @@ EVT_HANDLER_MASK(EmulatorSpeedupToggle, "Turbo mode (toggle)", CMDEN_GB | CMDEN_
     GetMenuOptionBool("EmulatorSpeedupToggle", menuPress);
     toggleBooleanVar(&menuPress, &turbo);
     SetMenuOption("EmulatorSpeedupToggle", turbo ? 1 : 0);
+    if (turbo) wxGetApp().frame->GetPanel()->panel->ChangeVsync(false);
 }
 
 EVT_HANDLER_MASK(Reset, "Reset", CMDEN_GB | CMDEN_GBA)
@@ -2985,7 +2986,14 @@ EVT_HANDLER(BootRomGBC, "Use the specified BIOS file for GBC")
 
 EVT_HANDLER(VSync, "Wait for vertical sync")
 {
-    GetMenuOptionInt("VSync", vsync, 1);
+    bool menuPress;
+    bool intVar = vsync ? true : false;
+    GetMenuOptionBool("VSync", menuPress);
+    toggleBooleanVar(&menuPress, &intVar);
+    SetMenuOption("VSync", intVar ? 1 : 0);
+    vsync = intVar ? 1 : 0;
+    if ((!turbo && throttle <= 100 && throttle > 0) || !vsync)
+        wxGetApp().frame->GetPanel()->panel->ChangeVsync(vsync);
     update_opts();
 }
 

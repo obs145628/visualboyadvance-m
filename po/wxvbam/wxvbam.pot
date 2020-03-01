@@ -738,80 +738,80 @@ msgstr ""
 msgid "Select file"
 msgstr ""
 
-#: cmdevents.cpp:1639 cmdevents.cpp:1732
+#: cmdevents.cpp:1640 cmdevents.cpp:1733
 msgid "Select state file"
 msgstr ""
 
-#: cmdevents.cpp:1640 cmdevents.cpp:1733
+#: cmdevents.cpp:1641 cmdevents.cpp:1734
 msgid "VisualBoyAdvance saved game files|*.sgm"
 msgstr ""
 
-#: cmdevents.cpp:1763 cmdevents.cpp:1773 cmdevents.cpp:1784
+#: cmdevents.cpp:1764 cmdevents.cpp:1774 cmdevents.cpp:1785
 #, c-format
 msgid "Current state slot #%d"
 msgstr ""
 
-#: cmdevents.cpp:2053
+#: cmdevents.cpp:2054
 msgid "Sound enabled"
 msgstr ""
 
-#: cmdevents.cpp:2053
+#: cmdevents.cpp:2054
 msgid "Sound disabled"
 msgstr ""
 
-#: cmdevents.cpp:2066 cmdevents.cpp:2080
+#: cmdevents.cpp:2067 cmdevents.cpp:2081
 #, c-format
 msgid "Volume: %d%%"
 msgstr ""
 
-#: cmdevents.cpp:2155
+#: cmdevents.cpp:2156
 msgid "Set to 0 for pseudo tty"
 msgstr ""
 
-#: cmdevents.cpp:2157
+#: cmdevents.cpp:2158
 msgid "Port to wait for connection:"
 msgstr ""
 
-#: cmdevents.cpp:2158
+#: cmdevents.cpp:2159
 msgid "GDB Connection"
 msgstr ""
 
-#: cmdevents.cpp:2211
+#: cmdevents.cpp:2212
 #, c-format
 msgid "Waiting for connection at %s"
 msgstr ""
 
-#: cmdevents.cpp:2218
+#: cmdevents.cpp:2219
 #, c-format
 msgid "Waiting for connection on port %d"
 msgstr ""
 
-#: cmdevents.cpp:2221
+#: cmdevents.cpp:2222
 msgid "Waiting for GDB..."
 msgstr ""
 
-#: cmdevents.cpp:2618
+#: cmdevents.cpp:2619
 #, c-format
 msgid "Using pixel filter #%d"
 msgstr ""
 
-#: cmdevents.cpp:2633
+#: cmdevents.cpp:2634
 #, c-format
 msgid "Using interframe blending #%d"
 msgstr ""
 
-#: cmdevents.cpp:2761
+#: cmdevents.cpp:2762
 msgid "Nintendo GameBoy (+Color+Advance) emulator."
 msgstr ""
 
-#: cmdevents.cpp:2762
+#: cmdevents.cpp:2763
 msgid ""
 "Copyright (C) 1999-2003 Forgotten\n"
 "Copyright (C) 2004-2006 VBA development team\n"
 "Copyright (C) 2007-2017 VBA-M development team"
 msgstr ""
 
-#: cmdevents.cpp:2763
+#: cmdevents.cpp:2764
 msgid ""
 "This program is free software: you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -827,35 +827,35 @@ msgid ""
 "along with this program.  If not, see http://www.gnu.org/licenses ."
 msgstr ""
 
-#: cmdevents.cpp:3027
+#: cmdevents.cpp:3035
 msgid "LAN link is already active.  Disable link mode to disconnect."
 msgstr ""
 
-#: cmdevents.cpp:3033
+#: cmdevents.cpp:3041
 msgid "Network is not supported in local mode."
 msgstr ""
 
-#: opts.cpp:550 opts.cpp:855
+#: opts.cpp:550 opts.cpp:860
 #, c-format
 msgid "Invalid value %s for option %s; valid values are %s%s%s"
 msgstr ""
 
-#: opts.cpp:567 opts.cpp:867
+#: opts.cpp:567 opts.cpp:872
 #, c-format
 msgid "Invalid value %d for option %s; valid values are %d - %d"
 msgstr ""
 
-#: opts.cpp:574 opts.cpp:583 opts.cpp:875 opts.cpp:883
+#: opts.cpp:574 opts.cpp:583 opts.cpp:880 opts.cpp:888
 #, c-format
 msgid "Invalid value %f for option %s; valid values are %f - %f"
 msgstr ""
 
-#: opts.cpp:643 opts.cpp:664 opts.cpp:952 opts.cpp:978
+#: opts.cpp:643 opts.cpp:664 opts.cpp:957 opts.cpp:983
 #, c-format
 msgid "Invalid key binding %s for %s"
 msgstr ""
 
-#: opts.cpp:838
+#: opts.cpp:843
 #, c-format
 msgid "Invalid flag option %s - %s ignored"
 msgstr ""
@@ -1020,42 +1020,54 @@ msgstr ""
 msgid "Error writing rewind state"
 msgstr ""
 
-#: panel.cpp:2341
+#: panel.cpp:2159
+msgid "Failed to set glXSwapIntervalSGI"
+msgstr ""
+
+#: panel.cpp:2169
+msgid "Failed to set wglSwapIntervalEXT"
+msgstr ""
+
+#: panel.cpp:2178
+msgid "No VSYNC available on this platform"
+msgstr ""
+
+#: panel.cpp:2359
 msgid "memory allocation error"
 msgstr ""
 
-#: panel.cpp:2344
+#: panel.cpp:2362
 msgid "error initializing codec"
 msgstr ""
 
-#: panel.cpp:2347
+#: panel.cpp:2365
 msgid "error writing to output file"
 msgstr ""
 
-#: panel.cpp:2350
+#: panel.cpp:2368
 msgid "can't guess output format from file name"
 msgstr ""
 
-#: panel.cpp:2355
+#: panel.cpp:2373
 msgid "programming error; aborting!"
 msgstr ""
 
-#: panel.cpp:2372 panel.cpp:2403
+#: panel.cpp:2390 panel.cpp:2421
 #, c-format
 msgid "Unable to begin recording to %s (%s)"
 msgstr ""
 
-#: panel.cpp:2431
+#: panel.cpp:2449
 #, c-format
 msgid "Error in audio/video recording (%s); aborting"
 msgstr ""
 
-#: panel.cpp:2437
+#: panel.cpp:2455
 #, c-format
 msgid "Error in audio recording (%s); aborting"
 msgstr ""
 
-#: panel.cpp:2447
+#: panel.cpp:2465
 #, c-format
 msgid "Error in video recording (%s); aborting"
 msgstr ""

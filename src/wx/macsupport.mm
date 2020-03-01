@@ -47,6 +47,10 @@ Quartz2DDrawingPanel::Quartz2DDrawingPanel(wxWindow* parent, int _width, int _he
 {
 }
 
+void Quartz2DDrawingPanel::ChangeVsync(bool enable)
+{
+}
+
 void Quartz2DDrawingPanel::DrawImage(wxWindowDC& dc, wxImage* im)
 {
     NSView* view = (NSView*)(GetWindow()->GetHandle());
@@ -63,7 +67,7 @@ void Quartz2DDrawingPanel::DrawImage(wxWindowDC& dc, wxImage* im)
         w, h, 8, 24, w * 3, color_space,
         kCGBitmapByteOrderDefault,
         provider, NULL, true, kCGRenderingIntentDefault
-    ); 
+    );
 
     // draw the image
 

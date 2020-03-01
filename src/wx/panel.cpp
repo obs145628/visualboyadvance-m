@@ -133,7 +133,7 @@ void GameArea::LoadGame(const wxString& name)
 
         if (!pfn.IsFileReadable()) {
             pfn.SetExt(wxT("ups"));
-			
+
 			if (!pfn.IsFileReadable()) {
 				pfn.SetExt(wxT("bps"));
 
@@ -223,7 +223,7 @@ void GameArea::LoadGame(const wxString& name)
             int size = 0x2000000 < rom_size ? 0x2000000 : rom_size;
             applyPatch(pfn.GetFullPath().mb_str(), &rom, &size);
             // that means we no longer really know rom_size either <sigh>
-            
+
             gbaUpdateRomSize(size);
         }
 
@@ -1482,6 +1482,11 @@ void DrawingPanelBase::DrawingPanelInit()
     did_init = true;
 }
 
+void DrawingPanelBase::ChangeVsync(bool enable)
+{
+    (void)enable; //unused params
+}
+
 void DrawingPanelBase::PaintEv(wxPaintEvent& ev)
 {
     (void)ev; // unused params
@@ -2032,6 +2037,11 @@ BasicDrawingPanel::BasicDrawingPanel(wxWindow* parent, int _width, int _height)
     if (!did_init) DrawingPanelInit();
 }
 
+void BasicDrawingPanel::ChangeVsync(bool enable)
+{
+    (void)enable;
+}
+
 void BasicDrawingPanel::DrawArea(wxWindowDC& dc)
 {
     wxImage* im;
@@ -2135,6 +2145,42 @@ GLDrawingPanel::GLDrawingPanel(wxWindow* parent, int _width, int _height)
     if (!did_init) DrawingPanelInit();
 }
 
+void GLDrawingPanel::ChangeVsync(bool enable)
+{
+    int vsync = enable ? 1 : 0;
+// non-portable vsync code
+#if defined(__WXGTK__) && defined(GLX_SGI_swap_control)
+    static PFNGLXSWAPINTERVALSGIPROC si = NULL;
+
+    if (!si)
+        si = reinterpret_cast<PFNGLXSWAPINTERVALSGIPROC>(glXGetProcAddress(reinterpret_cast<const unsigned char*>("glXSwapIntervalSGI")));
+
+    if (!si or si(vsync) != 0)
+        systemScreenMessage(_("Failed to set glXSwapIntervalSGI"));
+
+#else
+#if defined(__WXMSW__) && defined(WGL_EXT_swap_control)
+    static PFNWGLSWAPINTERVALEXTPROC si = NULL;
+
+    if (!si)
+        si = reinterpret_cast<PFNWGLSWAPINTERVALEXTPROC>(glXGetProcAddress(reinterpret_cast<const unsigned char*>("wglSwapIntervalEXT")));
+
+    if (!si or si(vsync) != 0)
+        systemScreenMessage(_("Failed to set wglSwapIntervalEXT"));
+
+#else
+#ifdef __WXMAC__
+    int swap_interval = vsync ? 1 : 0;
+    CGLContextObj cgl_context = CGLGetCurrentContext();
+    CGLSetParameter(cgl_context, kCGLCPSwapInterval, &swap_interval);
+#else
+//#warning no vsync support on this platform
+    systemScreenMessage(_("No VSYNC available on this platform"));
+#endif
+#endif
+#endif
+}
+
 GLDrawingPanel::~GLDrawingPanel()
 {
     // this should be automatically deleted w/ context
@@ -2214,36 +2260,8 @@ void GLDrawingPanel::DrawingPanelInit()
     glTexImage2D(GL_TEXTURE_2D, 0, int_fmt, std::ceil(width * scale), std::ceil(height * scale), 0, tex_fmt, NULL);
 #endif
     glClearColor(0.0, 0.0, 0.0, 1.0);
-// non-portable vsync code
-#if defined(__WXGTK__) && defined(GLX_SGI_swap_control)
-    static PFNGLXSWAPINTERVALSGIPROC si = NULL;
-
-    if (!si)
-        si = (PFNGLXSWAPINTERVALSGIPROC)glXGetProcAddress((const GLubyte*)"glxSwapIntervalSGI");
-
-    if (si)
-        si(vsync);
-
-#else
-#if defined(__WXMSW__) && defined(WGL_EXT_swap_control)
-    static PFNWGLSWAPINTERVALEXTPROC si = NULL;
-
-    if (!si)
-        si = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
-
-    if (si)
-        si(vsync);
-
-#else
-#ifdef __WXMAC__
-    int swap_interval = vsync ? 1 : 0;
-    CGLContextObj cgl_context = CGLGetCurrentContext();
-    CGLSetParameter(cgl_context, kCGLCPSwapInterval, &swap_interval);
-#else
-//#warning no vsync support on this platform
-#endif
-#endif
-#endif
+    if ((!turbo && throttle <= 100 && throttle > 0) || !vsync)
+        ChangeVsync(vsync);
 }
 
 void GLDrawingPanel::OnSize(wxSizeEvent& ev)

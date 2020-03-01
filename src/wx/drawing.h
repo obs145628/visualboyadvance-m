@@ -10,6 +10,7 @@ public:
 protected:
     void DrawArea(wxWindowDC& dc);
     virtual void DrawImage(wxWindowDC& dc, wxImage* im);
+    void ChangeVsync(bool enable);
 };
 
 // wx <= 2.8 may not be compiled with opengl support
@@ -38,6 +39,7 @@ protected:
     void DrawArea(wxWindowDC& dc);
     void OnSize(wxSizeEvent& ev);
     void AdjustViewport();
+    void ChangeVsync(bool enable);
 #ifndef wxGL_IMPLICIT_CONTEXT
     wxGLContext* ctx;
 #endif
@@ -61,6 +63,9 @@ protected:
 class Quartz2DDrawingPanel : public BasicDrawingPanel {
 public:
     Quartz2DDrawingPanel(wxWindow* parent, int _width, int _height);
+    void ChangeVsync(bool enable);
+
+protected:
     virtual void DrawImage(wxWindowDC& dc, wxImage* im);
 };
 #endif
