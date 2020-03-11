@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-07 13:29+0000\n"
+"POT-Creation-Date: 2020-03-11 14:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -257,8 +257,7 @@ msgstr ""
 #: guiinit.cpp:1841 cmdevents.cpp:746 xrc/DisplayConfig.xrc:85
 #: xrc/DisplayConfig.xrc:135 xrc/DisplayConfig.xrc:221
 #: xrc/GameBoyAdvanceConfig.xrc:32 xrc/GameBoyAdvanceConfig.xrc:204
-#: xrc/GeneralConfig.xrc:114 xrc/SoundConfig.xrc:219 xrc/SoundConfig.xrc:309
-#: xrc/SpeedupConfig.xrc:45 xrc/SpeedupConfig.xrc:120
+#: xrc/SoundConfig.xrc:219 xrc/SoundConfig.xrc:309
 msgid "None"
 msgstr ""
 
@@ -287,62 +286,62 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: guiinit.cpp:2724
+#: guiinit.cpp:2666
 msgid "Main icon not found"
 msgstr ""
 
-#: guiinit.cpp:2734
+#: guiinit.cpp:2676
 msgid "Browse"
 msgstr ""
 
-#: guiinit.cpp:2748
+#: guiinit.cpp:2690
 msgid "Main display panel not found"
 msgstr ""
 
-#: guiinit.cpp:2897
+#: guiinit.cpp:2839
 #, c-format
 msgid "Duplicate menu accelerator: %s for %s and %s; keeping first"
 msgstr ""
 
-#: guiinit.cpp:2911
+#: guiinit.cpp:2853
 #, c-format
 msgid "Menu accelerator %s for %s overrides default for %s ; keeping menu"
 msgstr ""
 
-#: guiinit.cpp:3041
+#: guiinit.cpp:2983
 #, c-format
 msgid "Invalid menu item %s; removing"
 msgstr ""
 
-#: guiinit.cpp:3242
+#: guiinit.cpp:3184
 msgid "Code"
 msgstr ""
 
-#: guiinit.cpp:3251
+#: guiinit.cpp:3193
 msgid "Description"
 msgstr ""
 
-#: guiinit.cpp:3325 xrc/CheatAdd.xrc:31
+#: guiinit.cpp:3267 xrc/CheatAdd.xrc:31
 msgid "Address"
 msgstr ""
 
-#: guiinit.cpp:3326
+#: guiinit.cpp:3268
 msgid "Old Value"
 msgstr ""
 
-#: guiinit.cpp:3327
+#: guiinit.cpp:3269
 msgid "New Value"
 msgstr ""
 
-#: guiinit.cpp:3847
+#: guiinit.cpp:3776
 msgid "Menu commands"
 msgstr ""
 
-#: guiinit.cpp:3870
+#: guiinit.cpp:3799
 msgid "Other commands"
 msgstr ""
 
-#: guiinit.cpp:3981
+#: guiinit.cpp:3910
 msgid "JoyBus host invalid; disabling"
 msgstr ""
 
@@ -839,27 +838,27 @@ msgstr ""
 msgid "Network is not supported in local mode."
 msgstr ""
 
-#: opts.cpp:550 opts.cpp:855
+#: opts.cpp:549 opts.cpp:854
 #, c-format
 msgid "Invalid value %s for option %s; valid values are %s%s%s"
 msgstr ""
 
-#: opts.cpp:567 opts.cpp:867
+#: opts.cpp:566 opts.cpp:866
 #, c-format
 msgid "Invalid value %d for option %s; valid values are %d - %d"
 msgstr ""
 
-#: opts.cpp:574 opts.cpp:583 opts.cpp:875 opts.cpp:883
+#: opts.cpp:573 opts.cpp:582 opts.cpp:874 opts.cpp:882
 #, c-format
 msgid "Invalid value %f for option %s; valid values are %f - %f"
 msgstr ""
 
-#: opts.cpp:643 opts.cpp:664 opts.cpp:952 opts.cpp:978
+#: opts.cpp:642 opts.cpp:663 opts.cpp:951 opts.cpp:977
 #, c-format
 msgid "Invalid key binding %s for %s"
 msgstr ""
 
-#: opts.cpp:838
+#: opts.cpp:837
 #, c-format
 msgid "Invalid flag option %s - %s ignored"
 msgstr ""
@@ -1024,42 +1023,70 @@ msgstr ""
 msgid "Error writing rewind state"
 msgstr ""
 
-#: panel.cpp:2345
+#: panel.cpp:2235
+msgid "Failed to set glXSwapIntervalEXT"
+msgstr ""
+
+#: panel.cpp:2244
+msgid "Failed to set glXSwapIntervalSGI"
+msgstr ""
+
+#: panel.cpp:2253
+msgid "Failed to set glXSwapIntervalMESA"
+msgstr ""
+
+#: panel.cpp:2260
+msgid "No support for wglGetExtensionsString"
+msgstr ""
+
+#: panel.cpp:2262
+msgid "No support for WGL_EXT_swap_control"
+msgstr ""
+
+#: panel.cpp:2271
+msgid "Failed to set wglSwapIntervalEXT"
+msgstr ""
+
+#: panel.cpp:2277
+msgid "No VSYNC available on this platform"
+msgstr ""
+
+#: panel.cpp:2373
 msgid "memory allocation error"
 msgstr ""
 
-#: panel.cpp:2348
+#: panel.cpp:2376
 msgid "error initializing codec"
 msgstr ""
 
-#: panel.cpp:2351
+#: panel.cpp:2379
 msgid "error writing to output file"
 msgstr ""
 
-#: panel.cpp:2354
+#: panel.cpp:2382
 msgid "can't guess output format from file name"
 msgstr ""
 
-#: panel.cpp:2359
+#: panel.cpp:2387
 msgid "programming error; aborting!"
 msgstr ""
 
-#: panel.cpp:2376 panel.cpp:2407
+#: panel.cpp:2399 panel.cpp:2429
 #, c-format
 msgid "Unable to begin recording to %s (%s)"
 msgstr ""
 
-#: panel.cpp:2435
+#: panel.cpp:2457
 #, c-format
 msgid "Error in audio/video recording (%s); aborting"
 msgstr ""
 
-#: panel.cpp:2441
+#: panel.cpp:2463
 #, c-format
 msgid "Error in audio recording (%s); aborting"
 msgstr ""
 
-#: panel.cpp:2451
+#: panel.cpp:2473
 #, c-format
 msgid "Error in video recording (%s); aborting"
 msgstr ""
@@ -2358,6 +2385,10 @@ msgstr ""
 msgid "0 = no throttle"
 msgstr ""
 
+#: xrc/GeneralConfig.xrc:114 xrc/SpeedupConfig.xrc:45
+msgid "Full Speed/No Limit"
+msgstr ""
+
 #: xrc/GeneralConfig.xrc:115 xrc/SpeedupConfig.xrc:46
 msgid "25%"
 msgstr ""
@@ -3478,15 +3509,15 @@ msgstr ""
 msgid "Players:"
 msgstr ""
 
-#: xrc/NetLink.xrc:41 xrc/SpeedupConfig.xrc:122
+#: xrc/NetLink.xrc:41
 msgid "2"
 msgstr ""
 
-#: xrc/NetLink.xrc:49 xrc/SpeedupConfig.xrc:123
+#: xrc/NetLink.xrc:49
 msgid "3"
 msgstr ""
 
-#: xrc/NetLink.xrc:56 xrc/SpeedupConfig.xrc:124
+#: xrc/NetLink.xrc:56
 msgid "4"
 msgstr ""
 
@@ -3656,120 +3687,4 @@ msgstr ""
 
 #: xrc/SpeedupConfig.xrc:9
 msgid "Speedup Throttle"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:84
-msgid "Speedup Frame Skip"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:102
-msgid "# of frames:"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:121
-msgid "1"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:125
-msgid "5"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:126
-msgid "6"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:127
-msgid "7"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:128
-msgid "8"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:129
-msgid "9"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:130
-msgid "10"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:131
-msgid "11"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:132
-msgid "12"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:133
-msgid "13"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:134
-msgid "14"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:135
-msgid "15"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:136
-msgid "16"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:137
-msgid "17"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:138
-msgid "18"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:139
-msgid "19"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:140
-msgid "20"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:141
-msgid "21"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:142
-msgid "22"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:143
-msgid "23"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:144
-msgid "24"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:145
-msgid "25"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:146
-msgid "26"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:147
-msgid "27"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:148
-msgid "28"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:149
-msgid "29"
-msgstr ""
-
-#: xrc/SpeedupConfig.xrc:150
-msgid "30"
 msgstr ""
