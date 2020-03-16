@@ -821,6 +821,9 @@ set(
     src/gba/RTC.cpp
     src/gba/Sound.cpp
     src/gba/Sram.cpp
+
+    # SYSCALL Edit
+    src/gba/syscall.cpp
 )
 
 if(ENABLE_DEBUGGER)

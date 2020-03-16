@@ -1,0 +1,78 @@
+Implementation:
+
+Syscalls are inplemented by wirtting bytes on VRAM.
+
+Syscall Trigger: 0x06000250
+Syscall argument: 0x06000251 and after
+When writing a word at memory address of syscall trigger (any word), a syscall is trigger
+Syscall arguments contains in order: syscall number, args 0 to args 3. All arguments are uint32_t
+Return value of syscall stored in arg0
+
+
+This is done by tweaking CPUWriteMemory (in src/gba/GBAinline.h).
+If address equals syscall trigger, my own function is called that read the memory to get the syscall number and the arguments, and it executes it.
+I use CPUReadMemoryQuick (in the same file) to read the data (syscall args, and others). It seem to work no matter if it's vram, or other sections.
+
+I also create my own source files: syscall.h / syscall.cpp in ./src/gba.
+This is done by editing the root CMakeLists.txt: add the source files to SRC_GBA
+
+
+
+
+Available syscalls:
+
+1: sys_exit(u32 ret_code): void
+
+exit the program with return code ret_code
+
+3: sys_read(in_fd, out_buf, count): count
+
+Try to read count bytes from file descriptor in_fd, and store it to out_buf.
+Returns the number of bytes read.
+In case of error, returns ((u32) -1)
+
+4: sys_write(out_fd, in_buf, count): count
+
+Try to write count bytes to file descriptor out_fd, loaded from in_buf.
+Returns the number of bytes written.
+In case of error, returns ((u32) -1)
+
+5: sys_open(path, flags, mode): fd
+
+Try to open the file located by path, with the specific flags and mode.
+Returns the fd of the opened file
+In case of error, returns ((u32) -1)
+
+6: sys_close(fd): status
+
+Close the corresponding file descriptor.
+Returns 0 on success
+In case of error, returns ((u32) -1)
+
+
+
+
+
+
+Testing:
+
+Simply run emulator with the GBA file:
+./visualboyadvance-m /home/obs/lun/tonc-tuto/syscalls-exs/touuper/toupper.gba
+
+
+
+Configuration:
+
+Can be configured with env variables
+
+VBAM_SYSCALL_STDIN=<path>
+By default, stdin is the standard stdin (fd 0)
+Can be changed to any file. if "-", it's stdin
+
+VBAM_SYSCALL_STDOUT=<path>
+By default, stdout is the standard stdouut (fd 1)
+Can be changed to any file. if "-", it's stdout
+
+VBAM_SYSCALL_STDERR=<path>
+By default, stderr is the standard stderr (fd 2)
+Can be changed to any file. if "-", it's stderr
