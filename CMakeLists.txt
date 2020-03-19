@@ -822,7 +822,8 @@ set(
     src/gba/Sound.cpp
     src/gba/Sram.cpp
 
-    # SYSCALL Edit
+    # @OBS
+    src/gba/obprofile.cpp
     src/gba/syscall.cpp
 )
 

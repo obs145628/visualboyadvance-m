@@ -21,3 +21,6 @@ vcpkg/*
 
 # mac finder crap
 *.DS_Store
+
+
+*~
