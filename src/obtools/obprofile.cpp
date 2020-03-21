@@ -1,11 +1,20 @@
 #include "obprofile.h"
 
+#include "elf-module.h"
 #include <iostream>
 
 namespace obprof {
 
 void load_rom(const char *rom_path) {
-  std::cout << "ROM loaded: " << rom_path << std::endl;
+
+  std::string gba_path(rom_path);
+  auto dpos = gba_path.rfind('.');
+  std::string elf_path = gba_path.substr(0, dpos) + ".elf";
+
+  std::cout << "ROM loaded: " << elf_path << std::endl;
+
+  auto mod = obs::load_elf_module(elf_path);
+  mod.dump();
 }
 
 void exec_ins(bool is_arm, uint32_t opcode, uint32_t opcode_addr) {

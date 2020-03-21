@@ -11,7 +11,7 @@
 #include "remote.h"
 
 // Syscall edit
-#include "syscall.h"
+#include "../obtools/syscall.h"
 
 extern const uint32_t objTilesAddress[3];
 

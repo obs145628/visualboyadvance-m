@@ -822,9 +822,7 @@ set(
     src/gba/Sound.cpp
     src/gba/Sram.cpp
 
-    # @OBS
-    src/gba/obprofile.cpp
-    src/gba/syscall.cpp
+
 )
 
 if(ENABLE_DEBUGGER)
@@ -1016,6 +1014,23 @@ set(
     headers/stb/stb_image_write.h
 )
 
+# @OBS
+set(SRC_OBTOOLS
+    src/obtools/elf-module.cpp
+    src/obtools/ipc.cpp
+    src/obtools/obprofile.cpp
+    src/obtools/strutils.cpp
+    src/obtools/syscall.cpp
+)
+
+set(HDR_OBTOOLS
+  src/obtools/elf-module.h
+  src/obtools/ipc.h
+  src/obtools/obprofile.h
+  src/obtools/strutils.h
+  src/obtools/syscall.h
+)
+    
 include_directories(
     ${ZLIB_INCLUDE_DIR}
     fex
@@ -1045,6 +1060,10 @@ add_library(
     ${SRC_DEBUGGER}
     ${HDR_DEBUGGER}
     ${HDR_STB_IMAGE}
+
+    # @OBS
+    ${SRC_OBTOOLS}
+    ${HDR_OBTOOLS}
 )
 add_dependencies(vbamcore generate)
 set_property(TARGET vbamcore PROPERTY CXX_STANDARD 11)

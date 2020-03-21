@@ -1,10 +1,8 @@
 // Whole file added for syscall
 
 #include "syscall.h"
-#include "GBA.h"
-#include "GBAinline.h"
-
-#include <stdio.h>
+#include "../gba/GBA.h"
+#include "../gba/GBAinline.h"
 
 #include <fcntl.h>
 #include <stdio.h>

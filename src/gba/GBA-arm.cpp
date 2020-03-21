@@ -27,7 +27,7 @@
 #endif
 
 // @OBS
-#include "obprofile.h"
+#include "../obtools/obprofile.h"
 
 #ifdef _MSC_VER
 // Disable "empty statement" warnings

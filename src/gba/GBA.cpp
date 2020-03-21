@@ -33,7 +33,7 @@
 #endif
 
 // @OBS
-#include "obprofile.h"
+#include "../obtools/obprofile.h"
 
 #ifdef __GNUC__
 #define _stricmp strcasecmp

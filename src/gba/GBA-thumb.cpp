@@ -30,7 +30,7 @@
 #endif
 
 // @OBS
-#include "obprofile.h"
+#include "../obtools/obprofile.h"
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
