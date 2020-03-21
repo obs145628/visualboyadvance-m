@@ -4,6 +4,13 @@
 
 namespace obprof {
 
+// Called when a GBA rom file is loaded
+//
+// Called from:
+// CPULoadRom (src/gba/GBA.cpp)
+void load_rom(const char *rom_path);
+
+// Called every time a THUMB / ARM ins is executed
 // @param is_arm - if true ARM ins, if false THUMB ins
 // @param the actual raw opcode (16b for THUMB, 32b for ARM)
 // @param opcode_addr - The GBA addr of the ins (difers from actual PC)

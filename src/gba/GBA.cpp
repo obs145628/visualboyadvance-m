@@ -1221,6 +1221,9 @@ int CPULoadRom(const char *szFile) {
     CPUCleanUp();
   }
 
+  // @OBS
+  obprof::load_rom(szFile);
+
   systemSaveUpdateCounter = SYSTEM_SAVE_NOT_UPDATED;
 
   rom = (uint8_t *)malloc(SIZE_ROM);
