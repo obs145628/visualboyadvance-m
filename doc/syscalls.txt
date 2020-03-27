@@ -5,8 +5,8 @@ Syscalls are inplemented by wirtting bytes on VRAM.
 Syscall Trigger: 0x06000250
 Syscall argument: 0x06000251 and after
 When writing a word at memory address of syscall trigger (any word), a syscall is trigger
-Syscall arguments contains in order: syscall number, args 0 to args 3. All arguments are uint32_t
-Return value of syscall stored in arg0
+Syscall arguments contains in order: syscall number, args 0 to args 3. All arguments are 4 bytes (signed or unsigned)
+Return value of syscall stored in arg0, also 4 bytes
 
 
 This is done by tweaking CPUWriteMemory (in src/gba/GBAinline.h).
@@ -21,34 +21,41 @@ This is done by editing the root CMakeLists.txt: add the source files to SRC_GBA
 
 Available syscalls:
 
-1: sys_exit(u32 ret_code): void
+1: sys_exit(i32 ret_code): void
 
 exit the program with return code ret_code
 
-3: sys_read(in_fd, out_buf, count): count
+3: sys_read(i32 in_fd, void* out_buf, u32 count): u32 count
 
 Try to read count bytes from file descriptor in_fd, and store it to out_buf.
 Returns the number of bytes read.
 In case of error, returns ((u32) -1)
 
-4: sys_write(out_fd, in_buf, count): count
+4: sys_write(i32 out_fd, void* in_buf, u32 count): u32 count
 
 Try to write count bytes to file descriptor out_fd, loaded from in_buf.
 Returns the number of bytes written.
 In case of error, returns ((u32) -1)
 
-5: sys_open(path, flags, mode): fd
+5: sys_open(void* path, uflags, mode): int fd
 
 Try to open the file located by path, with the specific flags and mode.
 Returns the fd of the opened file
 In case of error, returns ((u32) -1)
 
-6: sys_close(fd): status
+6: sys_close(int fd): int status
 
 Close the corresponding file descriptor.
 Returns 0 on success
 In case of error, returns ((u32) -1)
 
+7: sys_amem(u32 increment): void* old_limit
+
+Use the EWRAM GBA section (256Kb) to allocate dynamic memory
+This is represented by a linear memory block that start at size 0.
+This sycalls make this blocks by `incrment` bytes
+Return a pointer to the end of the block before incrementing it
+If there is no memory left on the section, it returns ((void*) -1)
 
 
 

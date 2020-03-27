@@ -6,6 +6,7 @@
 namespace obprof {
 
 void load_rom(const char *rom_path) {
+  return;
 
   std::string gba_path(rom_path);
   auto dpos = gba_path.rfind('.');

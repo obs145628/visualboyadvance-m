@@ -22,6 +22,11 @@ static int stdin_fd;
 static int stdout_fd;
 static int stderr_fd;
 
+#define AMEM_BEGIN (0x02000000)
+#define AMEM_END (0x02040000)
+
+static uint32_t amem_pos = AMEM_BEGIN;
+
 static void init_syscalls() {
   char *stdin = getenv(ENV_STDIN);
   if (!stdin || !strcmp(stdin, "-"))
@@ -63,7 +68,7 @@ static uint32_t syscall_read(uint32_t in_fd, uint32_t out_buf, uint32_t count) {
   if (count > SC_BUFF_SIZE)
     count = SC_BUFF_SIZE;
 
-  ssize_t ret = read(in_fd, sc_buff, count);
+  ssize_t ret = read((int)in_fd, sc_buff, count);
   if (ret < 0)
     return SC_ERR;
 
@@ -81,7 +86,7 @@ static uint32_t syscall_write(uint32_t out_fd, uint32_t in_buf,
   for (uint32_t i = 0; i < count; ++i)
     sc_buff[i] = CPUReadByteQuick(in_buf + i);
 
-  ssize_t ret = write(out_fd, sc_buff, count);
+  ssize_t ret = write((int)out_fd, sc_buff, count);
   return ret < 0 ? SC_ERR : (uint32_t)ret;
 }
 
@@ -100,6 +105,16 @@ static uint32_t syscall_close(uint32_t fd) {
   fd = get_true_fd(fd);
   int ret = close(fd);
   return ret < 0 ? SC_ERR : 0;
+}
+
+static uint32_t syscall_amem(uint32_t increment) {
+  uint32_t res = amem_pos;
+  uint32_t new_pos = res + increment;
+  if (new_pos > AMEM_END)
+    return SC_ERR;
+
+  amem_pos = new_pos;
+  return res;
 }
 
 void run_syscall() {
@@ -136,6 +151,10 @@ void run_syscall() {
 
   case 6:
     ret = syscall_close(a1);
+    break;
+
+  case 7:
+    ret = syscall_amem(a1);
     break;
 
   default:
