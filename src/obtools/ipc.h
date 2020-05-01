@@ -1,6 +1,6 @@
-//===-- utils/ipc.hh - IPC class definition ---------------------*- C++ -*-===//
+//===-- cliutils/ipc.hh - IPC class definition ------------------*- C++ -*-===//
 //
-// OBCL compilers library
+// gba-emu
 // Author: Steven Lariau
 //
 //===----------------------------------------------------------------------===//
@@ -8,6 +8,8 @@
 /// \file
 /// This file contains the definiton on the IPC Class (Inter-Process
 /// Communication)
+/// Spawn processes, run commands, read from proc stdout, and write to proc
+/// stdin
 ///
 //===----------------------------------------------------------------------===//
 
@@ -23,7 +25,7 @@ namespace obs {
 /// Many features:
 /// - Wait for process end
 /// - Get returns status
-/// - Read / Write bata through stdin/stdout
+/// - Read / Write data through stdin/stdout
 class IPC {
 
 public:

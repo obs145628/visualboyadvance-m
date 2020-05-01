@@ -881,12 +881,19 @@ if(WIN32 AND (AMD64 OR X86_32) AND ENABLE_ONLINEUPDATES)
     endif()
 
     configure_file(winsparkle-path.h.in ${CMAKE_BINARY_DIR}/winsparkle-path.h)
-endif()
+  endif()
+
+# @OBS
+set(ODB_LIBS_DIR "/home/obs/rep/odb/_build/lib")
+set(ODB_LIBS ${ODB_LIBS_DIR}/libodb_server.a ${ODB_LIBS_DIR}/libodb_mess.a)
 
 target_link_libraries(
     visualboyadvance-m
     ${wxWidgets_LIBRARIES}
     ${VBAM_LIBS}
+
+    # @OBS
+    ${ODB_LIBS} pthread
 )
 
 if(ENABLE_FFMPEG)

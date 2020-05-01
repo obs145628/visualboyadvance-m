@@ -1021,6 +1021,11 @@ set(SRC_OBTOOLS
     src/obtools/obprofile.cpp
     src/obtools/strutils.cpp
     src/obtools/syscall.cpp
+    src/obtools/vm-api.cpp
+)
+
+include_directories(
+  "/home/obs/rep/odb/include/"
 )
 
 set(HDR_OBTOOLS
@@ -1029,6 +1034,7 @@ set(HDR_OBTOOLS
   src/obtools/obprofile.h
   src/obtools/strutils.h
   src/obtools/syscall.h
+  src/obtools/vm-api.h
 )
     
 include_directories(

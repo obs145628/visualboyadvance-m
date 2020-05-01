@@ -1,8 +1,18 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 namespace obprof {
+
+struct ProfInfos {
+  std::string rom_path;
+  bool next_is_arm;
+  uint32_t next_opcode;
+  uint32_t next_opcode_addr;
+};
+
+extern ProfInfos g_prof_infos;
 
 // Called when a GBA rom file is loaded
 //

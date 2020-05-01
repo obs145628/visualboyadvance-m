@@ -3,6 +3,7 @@
 #include "ipc.h"
 #include "strutils.h"
 #include <cassert>
+#include <iomanip>
 #include <iostream>
 #include <set>
 #include <string>
@@ -11,60 +12,146 @@
 namespace obs {
 
 namespace {
-obs::ElfFunction parse_fun_line(const std::string &line) {
-  auto parts = obs::str_split(line, ' ');
+TextElfFunction parse_fun_line(const std::string &line) {
+  auto parts = str_split(line, ' ');
   assert(parts.size() == 2);
-  auto addr = obs::str_trim(parts[0]);
-  auto name = obs::str_trim(parts[1]);
+  auto addr = str_trim(parts[0]);
+  auto name = str_trim(parts[1]);
   auto addr_dec = std::stol(addr, nullptr, 16);
   name = name.substr(1, name.size() - 3);
-  obs::ElfFunction fun;
-  fun.addr = addr_dec;
+  TextElfFunction fun;
+  fun.beg_addr = addr_dec;
   fun.symbol = name;
+
   return fun;
 }
 
-obs::ElfIns parse_code_line(const std::vector<std::string> &parts) {
+std::vector<TextElfIns> parse_code_line(const std::vector<std::string> &parts) {
+  std::vector<TextElfIns> res;
   std::string text = parts[2];
   for (auto it = parts.begin() + 3; it != parts.end(); ++it) {
     text.append(" ");
-    text.append(obs::str_trim(*it));
+    text.append(str_trim(*it));
   }
-  text = obs::str_trim(text);
+  text = str_trim(text);
 
-  auto addr = obs::str_trim(parts[0].substr(0, parts[0].size() - 1));
+  auto addr = str_trim(parts[0].substr(0, parts[0].size() - 1));
   auto addr_dec = std::stol(addr, nullptr, 16);
-  auto opcode = obs::str_trim(parts[1]);
-  auto opcode_dec = std::stol(opcode, nullptr, 16);
-  obs::ElfIns ins;
-  ins.addr = addr_dec;
-  ins.opcode = opcode_dec;
-  ins.text = text;
-  return ins;
+
+  auto opcode = str_trim(parts[1]);
+  auto opcode_list = str_split(opcode, ' ');
+
+  for (const auto &opcode_str : opcode_list) {
+    auto opcode_dec = std::stoll(opcode_str, nullptr, 16);
+    TextElfIns ins;
+    ins.addr = addr_dec;
+    ins.opcode = opcode_dec;
+    ins.text = text;
+
+    // Guess instruction type
+    if (opcode_str.size() == 4)
+      ins.type = TextElfIns::Type::THUMB;
+    else if (opcode_str.size() == 8)
+      ins.type = TextElfIns::Type::ARM;
+    else {
+      // Haven't seen this before
+      assert(0);
+    }
+
+    if (ins.type == TextElfIns::Type::THUMB)
+      addr_dec += 2;
+    else if (ins.type == TextElfIns::Type::ARM)
+      addr_dec += 4;
+
+    res.push_back(ins);
+  }
+
+  return res;
 }
 } // namespace
 
-void ElfIns::dump() const {
-  std::cout << std::hex << "(" << addr << "): `" << text << "` [" << opcode
-            << "]\n"
-            << std::dec;
+void TextElfIns::dump() const {
+  size_t opcode_size = type == Type::ARM ? 8 : 4;
+  const char *op_next = opcode_size == 8 ? "" : "    ";
+  std::cout << std::hex << std::setfill(' ') << std::setw(8) << addr << ":\t"
+            << std::setfill('0') << std::setw(opcode_size) << opcode << op_next
+            << "\t" << text << std::dec << std::endl;
+  ;
 }
 
-void ElfFunction::dump() const {
-  std::cout << symbol << ": " << (code.empty() ? "((empty))\n" : "\n");
-  for (const auto &ins : code)
-    ins.dump();
+void TextElfFunction::init() {
+  assert(code.empty() || code.front().addr == beg_addr);
+
+  // Guess type
+  type = TextElfIns::Type::UNKNOWN;
+  for (const auto &ins : code) {
+    if (ins.type == TextElfIns::Type::UNKNOWN) {
+      type = TextElfIns::Type::UNKNOWN;
+      break;
+    }
+
+    else if (type == TextElfIns::Type::UNKNOWN)
+      type = ins.type;
+    else if (ins.type != type)
+      type = TextElfIns::Type::MIXED;
+  }
+
+  // Guess end addr
+  if (code.empty()) {
+    end_addr = beg_addr;
+  } else {
+    const auto &lins = code.back();
+    end_addr = lins.addr;
+    if (lins.type == TextElfIns::Type::THUMB)
+      end_addr += 2;
+    else if (lins.type == TextElfIns::Type::ARM)
+      end_addr += 4;
+  }
 }
 
-void ElfModule::dump() const {
+void TextElfFunction::dump_header_short() const {
+  std::cout << std::hex << std::setfill('0') << std::setw(8) << beg_addr << " <"
+            << symbol << ">: " << (code.empty() ? "((empty))\n" : "\n");
+}
+
+void TextElfFunction::dump_header_long() const {
+  if (type == TextElfIns::Type::ARM)
+    std::cout << "[ARMV4] ";
+  else if (type == TextElfIns::Type::MIXED)
+    std::cout << "[MIXED] ";
+  else if (type == TextElfIns::Type::THUMB)
+    std::cout << "[THUMB] ";
+  else if (type == TextElfIns::Type::UNKNOWN)
+    std::cout << "[UNKNW] ";
+  std::cout << symbol << " (" << std::hex << beg_addr << " - " << end_addr
+            << ")" << std::dec;
+  if (code.empty())
+    std::cout << "  ((empty))";
+  std::cout << std::endl;
+}
+
+void TextElfModule::dump_code() const {
   for (const auto &f : funs) {
-    f.dump();
+    f.dump_header_short();
+    for (const auto &ins : f.code)
+      ins.dump();
     std::cout << std::endl;
   }
 }
 
-ElfModule load_elf_module(const std::string &elf_path) {
-  obs::IPC ipc;
+void TextElfModule::dump_defs() const {
+  for (const auto &f : funs)
+    f.dump_header_long();
+  std::cout << std::endl;
+}
+
+void TextElfModule::init() {
+  for (auto &f : funs)
+    f.init();
+}
+
+TextElfModule load_text_elf_module(const std::string &elf_path) {
+  IPC ipc;
   ipc.set_cmd("/opt/devkitpro/devkitARM/bin/arm-none-eabi-objdump");
   ipc.set_args({"-S", elf_path});
   ipc.run();
@@ -74,8 +161,8 @@ ElfModule load_elf_module(const std::string &elf_path) {
       "__slave_number",
   };
 
-  obs::ElfModule mod;
-  obs::ElfFunction *fun = nullptr;
+  TextElfModule mod;
+  TextElfFunction *fun = nullptr;
 
   for (;;) {
     std::string line = ipc.read_until('\n');
@@ -83,7 +170,7 @@ ElfModule load_elf_module(const std::string &elf_path) {
     if (!is_eof && !line.empty())
       line.pop_back();
 
-    line = obs::str_trim(line);
+    line = str_trim(line);
 
     if (line.find('<') != std::string::npos &&
         line.find(">:") != std::string::npos) {
@@ -96,17 +183,19 @@ ElfModule load_elf_module(const std::string &elf_path) {
     }
 
     if (line.find(':') != std::string::npos) {
-      auto parts = obs::str_split(line, '\t');
+      auto parts = str_split(line, '\t');
       if (parts.size() < 3 || !fun)
         continue;
 
-      auto ins = parse_code_line(parts);
-      if (fun->code.empty() && fun->addr != ins.addr) {
+      auto ins_list = parse_code_line(parts);
+      assert(ins_list.size());
+      if (fun->code.empty() && fun->beg_addr != ins_list.front().addr) {
         std::cerr << "Fun addr doesn't match with it's first ins addr"
                   << std::endl;
         std::abort();
       }
-      fun->code.push_back(ins);
+      for (const auto &ins : ins_list)
+        fun->code.push_back(ins);
     }
 
     if (is_eof)
@@ -114,6 +203,7 @@ ElfModule load_elf_module(const std::string &elf_path) {
   }
 
   ipc.wait();
+  mod.init();
   return mod;
 }
 
